@@ -1,0 +1,110 @@
+/**
+ * @NApiVersion 2.1
+ * @NScriptType Restlet
+ */
+define(['N/currentRecord', 'N/record', 'N/runtime', 'N/search'],
+    /**
+ * @param{currentRecord} currentRecord
+ * @param{record} record
+ * @param{runtime} runtime
+ * @param{search} search
+ */
+    (currentRecord, record, runtime, search) => {
+        /**
+         * Defines the function that is executed when a GET request is sent to a RESTlet.
+         * @param {Object} requestParams - Parameters from HTTP request URL; parameters passed as an Object (for all supported
+         *     content types)
+         * @returns {string | Object} HTTP response body; returns a string when request Content-Type is 'text/plain'; returns an
+         *     Object when request Content-Type is 'application/json' or 'application/xml'
+         * @since 2015.2
+         */
+        const get = (requestParams) => {
+
+            let saleId = requestParams.id;
+            let flag =0 ;
+
+            let searchobj = search.create({
+                type : search.Type.SALES_ORDER,
+                id : 'customsearch_jj_salesordercheck01',
+                column : ['internalid'],
+                filters :['mainline','is',true]
+            });
+            searchobj.run().each(function(result){
+                let salesId=result.getValue({
+                    name : 'internalid'
+                });
+                if(saleId == salesId){
+                    flag =1 ;
+                }
+              return true  
+
+            });
+            if(flag == 1){
+                let serachObj1 = search.lookupFields({
+                    type : search.Type.SALES_ORDER,
+                    id : saleId,
+                    columns:['entity','tranid']
+                });
+                let entityName = serachObj1.entity;
+                return { "entity": entityName,
+            
+            }
+
+            }
+
+        }
+
+        /**
+         * Defines the function that is executed when a PUT request is sent to a RESTlet.
+         * @param {string | Object} requestBody - The HTTP request body; request body are passed as a string when request
+         *     Content-Type is 'text/plain' or parsed into an Object when request Content-Type is 'application/json' (in which case
+         *     the body must be a valid JSON)
+         * @returns {string | Object} HTTP response body; returns a string when request Content-Type is 'text/plain'; returns an
+         *     Object when request Content-Type is 'application/json' or 'application/xml'
+         * @since 2015.2
+         */
+        const put = (requestBody) => {
+
+        }
+
+        /**
+         * Defines the function that is executed when a POST request is sent to a RESTlet.
+         * @param {string | Object} requestBody - The HTTP request body; request body is passed as a string when request
+         *     Content-Type is 'text/plain' or parsed into an Object when request Content-Type is 'application/json' (in which case
+         *     the body must be a valid JSON)
+         * @returns {string | Object} HTTP response body; returns a string when request Content-Type is 'text/plain'; returns an
+         *     Object when request Content-Type is 'application/json' or 'application/xml'
+         * @since 2015.2
+         */
+        const post = (requestBody) => {
+
+            let cusName = requestBody.cusName;
+            let cusSubsidiary = requestBody.cusSubsidiary;
+
+            let cusObj = record.create({
+                type : record.type.CUSTOMER,
+                isDynamic : true
+            });
+            cusObj.setValue({
+                fieldId : 'companyname',
+                value : cusName
+            });
+            return "customer  created";
+
+        }
+
+        /**
+         * Defines the function that is executed when a DELETE request is sent to a RESTlet.
+         * @param {Object} requestParams - Parameters from HTTP request URL; parameters are passed as an Object (for all supported
+         *     content types)
+         * @returns {string | Object} HTTP response body; returns a string when request Content-Type is 'text/plain'; returns an
+         *     Object when request Content-Type is 'application/json' or 'application/xml'
+         * @since 2015.2
+         */
+        const doDelete = (requestParams) => {
+
+        }
+
+        return {get, put, post, delete: doDelete}
+
+    });
