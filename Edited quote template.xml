@@ -1,0 +1,9 @@
+<advancedpdftemplate scriptid="custtmpl_127_359045_sb1_381" standard="STDTMPLEMPTY">
+  <description></description>
+  <displaysourcecode>T</displaysourcecode>
+  <isinactive>F</isinactive>
+  <preferred>F</preferred>
+  <printtype>TRANSACTION</printtype>
+  <title>JJ Quote PDF/HTML Template(old)</title>
+  <trantype>ESTIMATE</trantype>
+</advancedpdftemplate>
