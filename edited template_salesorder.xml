@@ -1,0 +1,9 @@
+<advancedpdftemplate scriptid="custtmpl_128_359045_sb1_426" standard="STDTMPLEMPTY">
+  <description></description>
+  <displaysourcecode>T</displaysourcecode>
+  <isinactive>F</isinactive>
+  <preferred>F</preferred>
+  <printtype>TRANSACTION</printtype>
+  <title>JJ Sales Order PDF/HTML Template(old)</title>
+  <trantype>SALESORD</trantype>
+</advancedpdftemplate>
